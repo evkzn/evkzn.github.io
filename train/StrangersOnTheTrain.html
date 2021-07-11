@@ -128,6 +128,11 @@ body[data-tags~="title"] #story { margin:auto;}
 
 body[data-tags~="background"] .passage { background-color: rgba(0, 0, 0, 0.6); }
 
+body[data-tags~="break"] .passage {
+	text-align: center;
+  	font-size: 150%;
+}
+
 body[data-tags~="car"] {
 	background-image: url("Images/default_train.png");
 }
@@ -156,6 +161,10 @@ body[data-tags~="enter"] {
 	background-image: url("Images/platform.png");
 }
 
+body[data-tags~="encounter"] {
+	background-image: url("Images/encounter_dark.png");
+}
+
 #change {
   display: inline-block;
   background-image: url('Images/title_splash.png');
@@ -167,7 +176,7 @@ body[data-tags~="enter"] {
  }
 
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">$('#ui-bar').remove();
-$(document.head).find('#style-ui-bar').remove();</script><tw-tag name="background" color="purple"></tw-tag>,<tw-tag name="title" color="blue"></tw-tag><tw-passagedata pid="1" name="enter" tags="enter background" position="700,300" size="100,100">&lt;&lt;set _now to new Date()&gt;&gt;\
+$(document.head).find('#style-ui-bar').remove();</script><tw-tag name="background" color="purple"></tw-tag>,<tw-tag name="title" color="blue"></tw-tag>,<tw-tag name="break" color="green"></tw-tag>,<tw-tag name="encounter" color="yellow"></tw-tag><tw-passagedata pid="1" name="enter" tags="enter background" position="700,300" size="100,100">&lt;&lt;set _now to new Date()&gt;&gt;\
 &lt;&lt;set $visited_people to 0&gt;&gt;\
 &lt;&lt;set $visited_chats to 0&gt;&gt;\
 &lt;&lt;set $visited_ads to 0&gt;&gt;\
@@ -186,7 +195,10 @@ You&#39;re waiting on the platform.
 
 You look at your watch. It&#39;s &lt;&lt;if $min lt 10&gt;&gt;&lt;&lt;print $hours+&quot;:0&quot;+$min&gt;&gt;&lt;&lt;else&gt;&gt;&lt;&lt;print $hours+&quot;:&quot;+$min&gt;&gt;&lt;&lt;/if&gt;&gt;. Finally, the train comes.
 
-&lt;&lt;link &quot;You step into the car&quot;&gt;&gt;&lt;&lt;audio &quot;noise&quot; fadeoverto 2 1&gt;&gt;\&lt;&lt;goto &quot;car&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="car" tags="car background" position="700,500" size="100,100">You make your way to an empty seat and look around.
+&lt;&lt;link &quot;You step into the car&quot;&gt;&gt;&lt;&lt;audio &quot;noise&quot; fadeoverto 2 1&gt;&gt;\&lt;&lt;goto &quot;car&quot;&gt;&gt;&lt;&lt;/link&gt;&gt;\
+\
+\
+&lt;&lt;if $plays gt 0&gt;&gt;&lt;br/&gt;&lt;br/&gt;&lt;div style=&quot;text-align=&#39;right&#39;;&quot;&gt;[[(or return to title)|title]]&lt;/div&gt;&lt;&lt;/if&gt;&gt;\</tw-passagedata><tw-passagedata pid="2" name="car" tags="car background" position="700,500" size="100,100">You make your way to an empty seat and look around.
 
 &lt;&lt;if $visited_ads is 0&gt;&gt;The car&#39;s walls are full of [[posters|ads]].&lt;&lt;else&gt;&gt;The car&#39;s walls are full of posters.&lt;&lt;/if&gt;&gt;
 
@@ -286,7 +298,9 @@ Eventually your stop arrives and you look back one last time to make sure you di
 
 
 &lt;!-- Cache sounds --&gt;
-&lt;&lt;cacheaudio &quot;noise&quot; &quot;Sounds/metro_train.mp3&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="ads" tags="ads background" position="300,400" size="100,100">&lt;&lt;set $k to random(0,$ads.length-1)&gt;&gt;\
+&lt;&lt;cacheaudio &quot;noise&quot; &quot;Sounds/metro_train.mp3&quot;&gt;&gt;
+
+&lt;&lt;set $plays to 0&gt;&gt;</tw-passagedata><tw-passagedata pid="9" name="ads" tags="ads background" position="300,400" size="100,100">&lt;&lt;set $k to random(0,$ads.length-1)&gt;&gt;\
 &lt;&lt;print $ads[$k]&gt;&gt;\
 &lt;&lt;run $ads_seen.push($ads[$k])&gt;&gt;\
 &lt;&lt;run $ads.deleteAt($k)&gt;&gt;\
@@ -316,92 +330,93 @@ Eventually your stop arrives and you look back one last time to make sure you di
 &lt;&lt;/if&gt;&gt;\
 &lt;&lt;set $visited_chats to $visited_chats+1&gt;&gt;
 
-[[You stop listening|car]]</tw-passagedata><tw-passagedata pid="12" name="dog" tags="" position="100,700" size="100,100">A woman had just gotten into the car with a fluffy dog.
+[[You stop listening|car]]</tw-passagedata><tw-passagedata pid="12" name="dog" tags="encounter" position="100,700" size="100,100">A woman had just gotten into the car with a fluffy dog.
 
 [[Offer her your seat|dog-seat]]
 [[Are people even allowed to bring dogs on this train?|dog-allow]]
-[[Watch the dog from a distance|dog-watch]]</tw-passagedata><tw-passagedata pid="13" name="umbrella" tags="" position="300,700" size="100,100">A man gets up to get off at their stop dropping an umbrella as he does.
+[[Watch the dog from a distance|dog-watch]]</tw-passagedata><tw-passagedata pid="13" name="umbrella" tags="encounter" position="300,700" size="100,100">A man gets up to get off at their stop dropping an umbrella as he does.
 
 [[Say “You dropped your umbrella”|umbrella-say]]
 [[Get up to pick up the umbrella to give it to them|umbrella-pick]]
 [[Watch to see if someone nearby will help|umbrella-watch]]
-</tw-passagedata><tw-passagedata pid="14" name="meeting" tags="" position="1100,700" size="100,100">A woman walks through the doors and immediately spots a friend across a few rows of seats. She runs through the car, shouting “Bennet! Oh my gosh I didn’t realize you were back in town!”
+</tw-passagedata><tw-passagedata pid="14" name="meeting" tags="encounter" position="1100,700" size="100,100">A woman walks through the doors and immediately spots a friend across a few rows of seats. She runs through the car, shouting “Bennet! Oh my gosh I didn’t realize you were back in town!”
 
 [[Goodness, that’s a bit loud for the train|meeting-loud]]
 [[Listen to the two friends|meeting-listen]]
-[[This makes you think of a friend you haven’t seen in a while|meeting-friend]]</tw-passagedata><tw-passagedata pid="15" name="tourists" tags="" position="700,700" size="100,100">A noisy group of people get into the car chattering and trying to figure out which stop they need to get off at. They seem a little confused and are consulting a map.
+[[This makes you think of a friend you haven’t seen in a while|meeting-friend]]</tw-passagedata><tw-passagedata pid="15" name="tourists" tags="encounter" position="700,700" size="100,100">A noisy group of people get into the car chattering and trying to figure out which stop they need to get off at. They seem a little confused and are consulting a map.
 
 [[Ask them if they need any help with directions|tourists-ask]]
 [[Try to look friendly and approachable (in case they want help)|tourists-friendly]]
 [[Subtly watch what happens|tourists-watch]]
-</tw-passagedata><tw-passagedata pid="16" name="busker" tags="" position="900,700" size="100,100">A busker playing the accordion comes onto the train.
+</tw-passagedata><tw-passagedata pid="16" name="busker" tags="encounter" position="900,700" size="100,100">A busker playing the accordion comes onto the train.
 
 [[Give them a tip|busker-tip]]
 [[Look around to see how others are responding|busker-look]]
-[[Sit back and listen|busker-listen]]</tw-passagedata><tw-passagedata pid="17" name="groceries" tags="" position="500,700" size="100,100">A young woman is struggling with her groceries as the train starts moving again. One of the paper bags bursts, spilling its contents out.
+[[Sit back and listen|busker-listen]]</tw-passagedata><tw-passagedata pid="17" name="groceries" tags="encounter" position="500,700" size="100,100">A young woman is struggling with her groceries as the train starts moving again. One of the paper bags bursts, spilling its contents out.
 
 [[Help her pick up the groceries|groceries-help]]
 [[Pretend you don’t see the items that fell|groceries-nothing]]
-[[Steal her groceries|groceries-steal]]</tw-passagedata><tw-passagedata pid="18" name="catch" tags="" position="1300,700" size="100,100">You see someone running towards the platform to catch the train.
+[[Steal her groceries|groceries-steal]]</tw-passagedata><tw-passagedata pid="18" name="catch" tags="encounter" position="1300,700" size="100,100">You see someone running towards the platform to catch the train.
  
 [[Get up to try to hold the door for them|catch-hold]]
 [[At the speed they are going they’d probably run right into you if you tried to hold the door|catch-hesitate]]
 [[They are too far away, they wont make it|catch-far]]
-</tw-passagedata><tw-passagedata pid="19" name="dog-seat" tags="" position="75,825" size="100,100">You offer her your seat. She’s relieved and takes you up on your offer. 
+</tw-passagedata><tw-passagedata pid="19" name="dog-seat" tags="encounter" position="75,825" size="100,100">You offer her your seat. She’s relieved and takes you up on your offer. 
 “I really appreciate it. I gotta take this little one for a checkup at the vet. She’s friendly if you want to pet her”.
 
-[[You continue to chat|end]]</tw-passagedata><tw-passagedata pid="20" name="dog-allow" tags="" position="100,950" size="100,100">You look around at the other people on the train to see if anyone is going to say anything. No one seems to mind the dog being there. You catch a few people sneaking glances at the dog and smiling. The whole car seems a little happier and more animated.
+[[You continue to chat|end]]</tw-passagedata><tw-passagedata pid="20" name="dog-allow" tags="encounter" position="100,950" size="100,100">You look around at the other people on the train to see if anyone is going to say anything. No one seems to mind the dog being there. You catch a few people sneaking glances at the dog and smiling. The whole car seems a little happier and more animated.
 
-[[You let it go|end]]</tw-passagedata><tw-passagedata pid="21" name="dog-watch" tags="" position="125,1075" size="100,100">The dog notices you looking at them and stares at you with adoration. After a few seconds it gives a short bark and sticks its tongue out.
+[[You let it go|end]]</tw-passagedata><tw-passagedata pid="21" name="dog-watch" tags="encounter" position="125,1075" size="100,100">The dog notices you looking at them and stares at you with adoration. After a few seconds it gives a short bark and sticks its tongue out.
 
-[[You stick your own out in response|end]]</tw-passagedata><tw-passagedata pid="22" name="umbrella-say" tags="" position="325,825" size="100,100">You say, a little loudly for the previously quiet car, “You dropped your umbrella.” Just as you do, a person near the man picks up the umbrella to hand it to him. He says thank you to them and nods politely at you. The person who picked up the umbrella smiles at you broadly.
+[[You stick your own out in response|end]]</tw-passagedata><tw-passagedata pid="22" name="umbrella-say" tags="encounter" position="325,825" size="100,100">You say, a little loudly for the previously quiet car, “You dropped your umbrella.” Just as you do, a person near the man picks up the umbrella to hand it to him. He says thank you to them and nods politely at you. The person who picked up the umbrella smiles at you broadly.
 
-[[You’ve shared a small act of kindness|end]]</tw-passagedata><tw-passagedata pid="23" name="umbrella-pick" tags="" position="300,950" size="100,100">You stand up and cross the car to pick up the umbrella. “You dropped this,” you say, handing the man his umbrella. “Thank you so much” he says as he takes the umbrella and gets off the train.
+[[You’ve shared a small act of kindness|end]]</tw-passagedata><tw-passagedata pid="23" name="umbrella-pick" tags="encounter" position="300,950" size="100,100">You stand up and cross the car to pick up the umbrella. “You dropped this,” you say, handing the man his umbrella. “Thank you so much” he says as he takes the umbrella and gets off the train.
 
-[[You sit back down, a little spark of warmth inside you|end]]</tw-passagedata><tw-passagedata pid="24" name="umbrella-watch" tags="" position="275,1075" size="100,100">A person near the man picks up the umbrella and hands it to him saying “You dropped this”. “Oh thank you so much”, he says. He gets off and the person takes his seat. They sit silently in the glow of an act of kindness.
+[[You sit back down, a little spark of warmth inside you|end]]</tw-passagedata><tw-passagedata pid="24" name="umbrella-watch" tags="encounter" position="275,1075" size="100,100">A person near the man picks up the umbrella and hands it to him saying “You dropped this”. “Oh thank you so much”, he says. He gets off and the person takes his seat. They sit silently in the glow of an act of kindness.
 
-[[You watch them exit a few stops later|end]]</tw-passagedata><tw-passagedata pid="25" name="groceries-help" tags="" position="475,825" size="100,100">You notice that some oranges rolled towards you. You grab them one by one and hand them back to her. She thanks you while hurriedly trying to shove everything into her other bags.
+[[You watch them exit a few stops later|end]]</tw-passagedata><tw-passagedata pid="25" name="groceries-help" tags="encounter" position="475,825" size="100,100">You notice that some oranges rolled towards you. You grab them one by one and hand them back to her. She thanks you while hurriedly trying to shove everything into her other bags.
 
-[[You help her pick some more items|end]]</tw-passagedata><tw-passagedata pid="26" name="groceries-nothing" tags="" position="500,950" size="100,100">You kick back the kiwi that rolled towards you without looking at the ground at all. You act as if nothing had happened and avoid making eye-contact with the woman who is picking up her stuff.
+[[You help her pick some more items|end]]</tw-passagedata><tw-passagedata pid="26" name="groceries-nothing" tags="encounter" position="500,950" size="100,100">You kick back the kiwi that rolled towards you without looking at the ground at all. You act as if nothing had happened and avoid making eye-contact with the woman who is picking up her stuff.
 
-[[The woman checks and re-checks her bag until it&#39;s her stop|end]]</tw-passagedata><tw-passagedata pid="27" name="groceries-steal" tags="" position="525,1075" size="100,100">You grab one of the apples that rolled under your seat. You polish it on your shirt and take a bite from it while looking around to check if anyone saw you. 
+[[The woman checks and re-checks her bag until it&#39;s her stop|end]]</tw-passagedata><tw-passagedata pid="27" name="groceries-steal" tags="encounter" position="525,1075" size="100,100">You grab one of the apples that rolled under your seat. You polish it on your shirt and take a bite from it while looking around to check if anyone saw you. 
 
-[[You pocket a granola bar and a couple of grapes for later|end]]</tw-passagedata><tw-passagedata pid="28" name="tourists-ask" tags="" position="725,825" size="100,100">You ask the group if they need any help and they gladly accept. They are all in town visiting a friend. They’ve never been here before, they ask what your favorite things to do here are.
+[[You pocket a granola bar and a couple of grapes for later|end]]</tw-passagedata><tw-passagedata pid="28" name="tourists-ask" tags="encounter" position="725,825" size="100,100">You ask the group if they need any help and they gladly accept. They are all in town visiting a friend. They’ve never been here before, they ask what your favorite things to do here are.
 
-[[You continue chatting for a while, consulting the map along the way|end]]</tw-passagedata><tw-passagedata pid="29" name="tourists-friendly" tags="" position="700,950" size="100,100">You hear them say, “We should just ask someone.” You must have succeeded in looking friendly because one of them turns to you. “Hey! We’re in town to see a friend and trying to find a good place to eat. Do you have any favorite places nearby?” You tell them about your favorite spot.
+[[You continue chatting for a while, consulting the map along the way|end]]</tw-passagedata><tw-passagedata pid="29" name="tourists-friendly" tags="encounter" position="700,950" size="100,100">You hear them say, “We should just ask someone.” You must have succeeded in looking friendly because one of them turns to you. “Hey! We’re in town to see a friend and trying to find a good place to eat. Do you have any favorite places nearby?” You tell them about your favorite spot.
 
-[[They thank you for the recommendation and plug the name into their phone|end]]</tw-passagedata><tw-passagedata pid="30" name="tourists-watch" tags="" position="675,1075" size="100,100">“I told you we should have asked Ames before she went to work.”
+[[They thank you for the recommendation and plug the name into their phone|end]]</tw-passagedata><tw-passagedata pid="30" name="tourists-watch" tags="encounter" position="675,1075" size="100,100">“I told you we should have asked Ames before she went to work.”
 “None of you fools were even up.”
 “It’s a vacation!”
 “Ok let’s just get off at the next stop and let fate decide. We’ll just wander until we find a good place to eat.”
 
-[[The moment the train stops you watch them pile out|end]]</tw-passagedata><tw-passagedata pid="31" name="busker-tip" tags="" position="875,825" size="100,100">You drop some money into their jar. They smile at you and nod their thanks as they play. They finish the song and ask if you have any requests. You can’t think of any accordion songs, so you shake your head. The accordion player smiles and continues on. The song feels familiar even though you’re sure you’ve never heard it before.
+[[The moment the train stops you watch them pile out|end]]</tw-passagedata><tw-passagedata pid="31" name="busker-tip" tags="encounter" position="875,825" size="100,100">You drop some money into their jar. They smile at you and nod their thanks as they play. They finish the song and ask if you have any requests. You can’t think of any accordion songs, so you shake your head. The accordion player smiles and continues on. The song feels familiar even though you’re sure you’ve never heard it before.
 
-[[In a couple of minutes you find yourself quietly humming it|end]]</tw-passagedata><tw-passagedata pid="32" name="busker-look" tags="" position="900,950" size="100,100">You notice a kid looking at the accordion player with sparkling eyes. The kid’s dad gives them some money to put into the jar. The accordion player smiles and asks the kid if they have a favorite song.
+[[In a couple of minutes you find yourself quietly humming it|end]]</tw-passagedata><tw-passagedata pid="32" name="busker-look" tags="encounter" position="900,950" size="100,100">You notice a kid looking at the accordion player with sparkling eyes. The kid’s dad gives them some money to put into the jar. The accordion player smiles and asks the kid if they have a favorite song.
 Surprised but delighted the kid answers “Baby Shark”.
 The accordion player laughs and proceeds to play a rendition of it. The kid is over the moon.
 
-[[And as you look around, the whole train is sneaking glances at the scene|end]] </tw-passagedata><tw-passagedata pid="33" name="busker-listen" tags="" position="925,1075" size="100,100">The accordion player plays a tune that feels mournful but somehow still upbeat. Seeing that there is nobody tipping here, they move along to the next car. You watch through the rear window as they begin playing again, but cannot hear a thing.
+[[And as you look around, the whole train is sneaking glances at the scene|end]] </tw-passagedata><tw-passagedata pid="33" name="busker-listen" tags="encounter" position="925,1075" size="100,100">The accordion player plays a tune that feels mournful but somehow still upbeat. Seeing that there is nobody tipping here, they move along to the next car. You watch through the rear window as they begin playing again, but cannot hear a thing.
 
-[[You imagine you&#39;re on a space station watching a ship drift by|end]]</tw-passagedata><tw-passagedata pid="34" name="meeting-loud" tags="" position="1125,825" size="100,100">You look around to see how everyone else is responding to this reunion. It seems like no one else has even looked up. It’s like no one else even knows this is happening, just you. You suddenly feel like you&#39;re interrupting a private moment.
+[[You imagine you&#39;re on a space station watching a ship drift by|end]]</tw-passagedata><tw-passagedata pid="34" name="meeting-loud" tags="encounter" position="1125,825" size="100,100">You look around to see how everyone else is responding to this reunion. It seems like no one else has even looked up. It’s like no one else even knows this is happening, just you. You suddenly feel like you&#39;re interrupting a private moment.
 
-[[You try to focus on your phone|end]]</tw-passagedata><tw-passagedata pid="35" name="meeting-listen" tags="" position="1100,950" size="100,100">The two friends chat excitedly. There is relief in their voice. You can’t catch everything they say but you hear Bennet gush, “I’ve missed you so much, I&#39;m so glad we ran into each other. This has really made my day.”
+[[You try to focus on your phone|end]]</tw-passagedata><tw-passagedata pid="35" name="meeting-listen" tags="encounter" position="1100,950" size="100,100">The two friends chat excitedly. There is relief in their voice. You can’t catch everything they say but you hear Bennet gush, “I’ve missed you so much, I&#39;m so glad we ran into each other. This has really made my day.”
 
-[[Excitement radiates from them and you feel a pang of envy|end]]</tw-passagedata><tw-passagedata pid="36" name="meeting-friend" tags="" position="1075,1075" size="100,100">You take out your phone and text, “Hey, I was just thinking about you. How are you doing?”
+[[Excitement radiates from them and you feel a pang of envy|end]]</tw-passagedata><tw-passagedata pid="36" name="meeting-friend" tags="encounter" position="1075,1075" size="100,100">You take out your phone and text, “Hey, I was just thinking about you. How are you doing?”
 Your friend is so glad to hear from you. They suggest getting together some time soon to catch up, it’s been too long.
 
-[[You spend the rest of the trip choosing a place to meet|end]]</tw-passagedata><tw-passagedata pid="37" name="catch-hold" tags="" position="1275,825" size="100,100">You get up and hold the door as it dings and attempts to close.
+[[You spend the rest of the trip choosing a place to meet|end]]</tw-passagedata><tw-passagedata pid="37" name="catch-hold" tags="encounter" position="1275,825" size="100,100">You get up and hold the door as it dings and attempts to close.
 The running person slips into the train breathless.
 “Thank you so much” they say, smiling. 
 “No problem” you say, shrugging off your heroic act. 
 You return to your seat watching your new friend catch their breath and check their watch triumphantly.
 
-[[You feel the rubber of the door on your palm|end]]</tw-passagedata><tw-passagedata pid="38" name="catch-hesitate" tags="" position="1300,950" size="100,100">You stand still watching this person sprint across the platform. They fly into the train car just a breath before the door closes. Panting and triumphant they check their watch and nod approvingly. 
+[[You feel the rubber of the door on your palm|end]]</tw-passagedata><tw-passagedata pid="38" name="catch-hesitate" tags="encounter" position="1300,950" size="100,100">You stand still watching this person sprint across the platform. They fly into the train car just a breath before the door closes. Panting and triumphant they check their watch and nod approvingly. 
 As you look around you notice a few other people have witnessed this too and are smiling. 
 
-[[They all know how good it feels to make the train you think you’re going to miss|end]]</tw-passagedata><tw-passagedata pid="39" name="catch-far" tags="" position="1325,1075" size="100,100">You stay seated watching this person sprint towards the train, but they are too far away. The doors bing and snap shut just before they get to the car. You watch them exhale in disappointment, then bend down, hands on their thighs. Just before the train pulls away you see them turn, as someone calls their name.
+[[They all know how good it feels to make the train you think you’re going to miss|end]]</tw-passagedata><tw-passagedata pid="39" name="catch-far" tags="encounter" position="1325,1075" size="100,100">You stay seated watching this person sprint towards the train, but they are too far away. The doors bing and snap shut just before they get to the car. You watch them exhale in disappointment, then bend down, hands on their thighs. Just before the train pulls away you see them turn, as someone calls their name.
 
-[[They straighten up, smile and walk in that direction|end]]</tw-passagedata><tw-passagedata pid="40" name="break" tags="" position="700,1500" size="100,100">[[The day goes by|enter]]</tw-passagedata><tw-passagedata pid="41" name="title" tags="title" position="700,100" size="100,100">&lt;&lt;audio &quot;noise&quot; volume 0&gt;&gt;&lt;&lt;audio &quot;noise&quot; loop&gt;&gt;\
+[[They straighten up, smile and walk in that direction|end]]</tw-passagedata><tw-passagedata pid="40" name="break" tags="break" position="700,1500" size="100,100">&lt;&lt;set $plays to $plays+1&gt;&gt;
+[[The day goes by|enter]]</tw-passagedata><tw-passagedata pid="41" name="title" tags="title" position="700,100" size="100,100">&lt;&lt;audio &quot;noise&quot; volume 0&gt;&gt;&lt;&lt;audio &quot;noise&quot; loop&gt;&gt;\
 &lt;a data-passage=&quot;enter&quot;&gt;&lt;img id=&quot;title_image&quot; src=&quot;Images/title.png&quot; onmouseover=&quot;this.src=&#39;Images/title-splash.png&#39;&quot; onmouseout=&quot;this.src=&#39;Images/title.png&#39;&quot;/&gt;&lt;/a&gt;\
 \
 [[CREDITS|credits]]</tw-passagedata><tw-passagedata pid="42" name="credits" tags="title" position="900,100" size="100,100">
